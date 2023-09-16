@@ -10,11 +10,19 @@ const userSchema = mongoose.Schema({
         required: true
     },
     minutes: {
-        type: String,
-        required: true
+        type: Object
     },
-    steps: {
-        type: String,
-        required: true
+    calorie: {
+        type: Object
+    },
+    minuteId: {
+        type: String
+    },
+    calId: {
+        type: String
     }
-})
+});
+
+const userModel = mongoose.model('User', userSchema);
+
+module.exports = userModel;

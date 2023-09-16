@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const user = require('../Router/user');
 const app = express();
+
+require('../db/db');
 app.use(cors({
     origin: '*',
     methods: [
