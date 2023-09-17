@@ -8,9 +8,9 @@ const url = (req, res) => {
     // console.log(email);
     // const state = { em : email};
     const oauth2Client = new google.auth.OAuth2(
-        "611658826728-ob0ffv5qe6gee0o4q32afip1ldb71632.apps.googleusercontent.com",
-        "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",
-        "http://localhost:3001/user/points"
+        "611658826728-gp7el8t7t63g46o807c6unjd99tfg4lm.apps.googleusercontent.com",
+        "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",
+        "http://localhost:3000/sign"
         );
         
     const scopes = ["https://www.googleapis.com/auth/fitness.activity.read profile email openid"]

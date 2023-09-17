@@ -14,9 +14,9 @@ const getUser = async (email) => {
 const getToken = async (code) => {
     return await axios.post('https://oauth2.googleapis.com/token', {
         code: code,
-        client_id: `611658826728-ob0ffv5qe6gee0o4q32afip1ldb71632.apps.googleusercontent.com`,
-        client_secret: `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`,
-        redirect_uri: 'http://localhost:3001/user/points',
+        client_id: `611658826728-gp7el8t7t63g46o807c6unjd99tfg4lm.apps.googleusercontent.com`,
+        client_secret: `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`,
+        redirect_uri: 'http://localhost:3000/sign',
         grant_type: 'authorization_code'
     })
 }
@@ -187,8 +187,7 @@ const updateUser = async(email, calor, minute) => {
     })
 }
 const fetchData= (req, res) => {
-    const queryURL = new urlParse(req.url);
-    const code = queryParse.parse(queryURL.query).code;
+    const code = req.headers.code;
     // res.send(`Code is ${code}`);
     getToken(code).then((resp1) => {
         if(resp1.status === 200){
@@ -202,9 +201,9 @@ const fetchData= (req, res) => {
                     let email = resp2.data.email;
                     let name = resp2.data.name;
                     const oauth2Client = new google.auth.OAuth2(
-                        `611658826728-ob0ffv5qe6gee0o4q32afip1ldb71632.apps.googleusercontent.com`,
-                        `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`,
-                        'http://localhost:3001/user/points',
+                        `611658826728-gp7el8t7t63g46o807c6unjd99tfg4lm.apps.googleusercontent.com`,
+                        `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`,
+                        'http://localhost:3000/sign',
                         true
                     );
                     oauth2Client.setCredentials({
