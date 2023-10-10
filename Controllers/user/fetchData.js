@@ -28,9 +28,11 @@ const getMintDt = async (streamId, config) => {
     const fitness = google.fitness('v1');// creating the fitness client object
     const startDate1 = new Date();
     startDate1.setDate(1);
+    console.log(` startdate :- ${startDate1}`);
     // startDate1.setMonth(startDate1.getMonth() -1); // Subtract one month from current date
     const startTimeMillis = startDate1.getTime(); // Get start time in milliseconds
-    const endTimeMillis = Date.now();
+    const endTimeMillis = new Date();
+    console.log(`endtime : -${endTimeMillis}`);
     return await axios.post("https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate", {
         aggregateBy: [
         {
@@ -42,7 +44,7 @@ const getMintDt = async (streamId, config) => {
         durationMillis: 86400000, // 24 hours in milliseconds
         },
         startTimeMillis: startTimeMillis, // Replace with your desired start time
-        endTimeMillis: endTimeMillis, // Replace with your desired end time
+        endTimeMillis: endTimeMillis.getTime(), // Replace with your desired end time
     }, config)
 }
 const calculateMintData = (resp3) => {
@@ -50,9 +52,10 @@ const calculateMintData = (resp3) => {
     if(resp3.data.bucket.length > 0){
         resp3.data.bucket.map((e2,k2) => {
             if(e2.dataset.length > 0){
+                console.log("Hello Namaste :- ")
                 e2.dataset.map((e3, k3) => {
+                    console.log("Namo :- "+e3.point.length);
                     if(e3.point.length > 0){
-                        console.log("Hello Namaste :- ")
                         e3.point.map((e4, k4) => {
                             console.log("Namaste :- "+e4.value[0].fpVal);
                             mints = mints + e4.value[0].fpVal;
@@ -196,6 +199,7 @@ const fetchData= (req, res) => {
                     'Authorization': 'Bearer ' + resp1.data.access_token
                 }
             };
+            // console.log(` resp1.data.access_token : ${resp1.data.access_token}`);
             getUserDetail(config).then(async (resp2) => {
                 if(resp2.status === 200){
                     let email = resp2.data.email;
@@ -222,6 +226,7 @@ const fetchData= (req, res) => {
                                 }
                                 else{
                                     await getMintDt(mintId, config).then(async (resp5) => {
+                                        console.log("resp5");
                                         let minutes = calculateMintData(resp5);
                                         await getCalorieData(config, calId).then(async (resp6) => {
                                             let calories = calculateCalorie(resp6);
@@ -256,6 +261,7 @@ const fetchData= (req, res) => {
                         }
                         else{
                             await getMintDt(resp3[0].mintId, config).then(async (resp4) => {
+                                console.log(`Resp3 :- ${resp4}`);
                                 let minutes = calculateMintData(resp4);
                                 await getCalorieData(config, resp3[0].calId).then(async (resp5) => {
                                     let calorie = calculateCalorie(resp5);
